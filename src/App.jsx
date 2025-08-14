@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BunnyRive from "./components/BunnyRive";
-
-// THE FIX #1: Import assets to get their final URLs from Vite.
-// The `?url` for the .riv file is a good practice to ensure we just get the URL string.
+// THE FIX #1: Import the .riv file to get its correct URL from Vite
 import pebbleRiveFile from '/pebble.riv?url';
-import necosmicFont from '/fonts/Necosmic.woff2';
-import pixeloidFont from '/fonts/PixeloidSans.woff2';
-
 
 // --- Main App Component ---
 export default function App() {
@@ -17,18 +12,17 @@ export default function App() {
 
   // This effect manages custom fonts, the mouse animation, and now detects touch devices.
   useEffect(() => {
-    // FONT SETUP
+    // FONT SETUP (Leaving this exactly as you had it)
     const style = document.createElement('style');
-    // THE FIX #2: Use the imported font variables in the style tag.
     style.innerHTML = `
       @font-face {
         font-family: 'Necosmic';
-        src: url('${necosmicFont}') format('woff2');
+        src: url('/fonts/Necosmic.woff2') format('woff2');
         font-weight: normal; font-style: normal; font-display: swap;
       }
       @font-face {
         font-family: 'Pixeloid Sans';
-        src: url('${pixeloidFont}') format('woff2');
+        src: url('/fonts/PixeloidSans.woff2') format('woff2');
         font-weight: normal; font-style: normal; font-display: swap;
       }
       .font-necosmic { font-family: 'Necosmic', sans-serif; }
@@ -36,7 +30,6 @@ export default function App() {
     `;
     document.head.appendChild(style);
     
-    // Check for touch-only device once on mount
     setIsTouchDevice(window.matchMedia('(hover: none)').matches);
 
     // MOUSE MOVE HANDLER for desktop parallax effect
@@ -45,7 +38,7 @@ export default function App() {
       const { innerWidth, innerHeight } = window;
       const offsetX = (clientX - innerWidth / 2) / (innerWidth / 2);
       const offsetY = (clientY - innerHeight / 2) / (innerHeight / 2);
-      const intensity = 20; // Slightly increased for more premium feel
+      const intensity = 20;
       setTransform({ x: -offsetX * intensity, y: -offsetY * intensity });
     };
 
@@ -53,7 +46,6 @@ export default function App() {
         window.addEventListener('mousemove', handleMouseMove);
     }
     
-    // BODY SCROLL LOCK for when the mobile menu is open
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -81,7 +73,7 @@ export default function App() {
       {/* ===== Header ===== */}
       <header className="absolute top-0 left-0 right-0 z-50 p-4 md:p-6 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="container mx-auto flex justify-between items-center">
-            <a href="#" className="text-xl font-bold tracking-widest font-pixeloid text-red-600 z-50 hover:text-red-700 transition-colors duration-300">PEBBLE</a>
+           <a href="#" className="text-xl font-bold tracking-widest font-pixeloid text-red-600 z-50 hover:text-red-700 transition-colors duration-300">PEBBLE</a>
           <div className="hidden md:flex absolute inset-x-0 items-center justify-center gap-8 lg:gap-16 text-lg lg:text-3xl tracking-widest text-red-600 font-pixeloid">
             {menuLinks.map((link) => (
               <a key={link.name} href={link.href} className="hover:text-red-700 transition-colors duration-300 ease-in-out">{link.name}</a>
@@ -124,10 +116,10 @@ export default function App() {
                 transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
-                <div className="w-[360px] h-[360px] lg:w-[400px] lg:h-[400px] drop-shadow-2xl">
-                    {/* THE FIX #3: Use the imported variable for the src prop */}
-                    <BunnyRive src={pebbleRiveFile} stateMachine="pebble" width={400} height={400} isTouchDevice={isTouchDevice} />
-                </div>
+               <div className="w-[360px] h-[360px] lg:w-[400px] lg:h-[400px] drop-shadow-2xl">
+                  {/* THE FIX #2: Use the imported variable here */}
+                  <BunnyRive src={pebbleRiveFile} stateMachine="pebble" width={400} height={400} isTouchDevice={isTouchDevice} />
+              </div>
             </div>
             <p className="absolute inset-x-0 top-1/2 w-full text-center text-3xl font-pixeloid lg:text-4xl text-red-600 tracking-widest pointer-events-none mt-[130px] lg:mt-[130px] drop-shadow-sm">
                 Your Pocket Companion
@@ -147,7 +139,7 @@ export default function App() {
       {/* ===== MOBILE-ONLY LAYOUT ===== */}
       <div className="md:hidden w-full min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-20">
           <div className="w-[240px] h-[240px] drop-shadow-2xl">
-              {/* THE FIX #4: Use the imported variable for the src prop here too */}
+              {/* THE FIX #3: And also use the imported variable here */}
               <BunnyRive src={pebbleRiveFile} stateMachine="pebble" width={240} height={240} isTouchDevice={isTouchDevice} />
           </div>
           <div className="text-center mt-4">
