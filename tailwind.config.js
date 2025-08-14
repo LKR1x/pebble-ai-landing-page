@@ -5,8 +5,13 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      // ADD THIS FONT FAMILY SECTION
+      fontFamily: {
+        'necosmic': ['Necosmic', 'sans-serif'],
+        'pixeloid': ['Pixeloid Sans', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
-
