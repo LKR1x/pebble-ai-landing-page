@@ -1,0 +1,18 @@
+/* src/fonts.css */
+
+@font-face {
+  font-family: 'Necosmic';
+  /* The path is relative to this CSS file */
+  src: url('./assets/fonts/Necosmic.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* Improves loading performance */
+}
+
+@font-face {
+  font-family: 'Pixeloid Sans';
+  src: url('./assets/fonts/PixeloidSans.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

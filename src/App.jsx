@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BunnyRive from "./components/BunnyRive";
-// THE FIX #1: Import the .riv file to get its correct URL from Vite
+// This import for your Rive file is correct and should be kept
 import pebbleRiveFile from '/pebble.riv?url';
 
 // --- Main App Component ---
@@ -10,25 +10,9 @@ export default function App() {
   const [transform, setTransform] = useState({ x: 0, y: 0 });
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
-  // This effect manages custom fonts, the mouse animation, and now detects touch devices.
+  // This effect now only handles the mouse animation and touch detection.
+  // The font setup has been removed because it must be handled in a separate CSS file.
   useEffect(() => {
-    // FONT SETUP (Leaving this exactly as you had it)
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @font-face {
-        font-family: 'Necosmic';
-        src: url('/fonts/Necosmic.woff2') format('woff2');
-        font-weight: normal; font-style: normal; font-display: swap;
-      }
-      @font-face {
-        font-family: 'Pixeloid Sans';
-        src: url('/fonts/PixeloidSans.woff2') format('woff2');
-        font-weight: normal; font-style: normal; font-display: swap;
-      }
-      .font-necosmic { font-family: 'Necosmic', sans-serif; }
-      .font-pixeloid { font-family: 'Pixeloid Sans', sans-serif; }
-    `;
-    document.head.appendChild(style);
     
     setIsTouchDevice(window.matchMedia('(hover: none)').matches);
 
@@ -46,6 +30,7 @@ export default function App() {
         window.addEventListener('mousemove', handleMouseMove);
     }
     
+    // Body scroll lock for when the mobile menu is open
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -53,7 +38,6 @@ export default function App() {
     }
 
     return () => {
-      document.head.removeChild(style);
       document.body.style.overflow = 'unset';
       if (window.matchMedia('(hover: hover)').matches) {
         window.removeEventListener('mousemove', handleMouseMove);
@@ -117,7 +101,6 @@ export default function App() {
               }}
             >
                <div className="w-[360px] h-[360px] lg:w-[400px] lg:h-[400px] drop-shadow-2xl">
-                  {/* THE FIX #2: Use the imported variable here */}
                   <BunnyRive src={pebbleRiveFile} stateMachine="pebble" width={400} height={400} isTouchDevice={isTouchDevice} />
               </div>
             </div>
@@ -139,7 +122,6 @@ export default function App() {
       {/* ===== MOBILE-ONLY LAYOUT ===== */}
       <div className="md:hidden w-full min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-20">
           <div className="w-[240px] h-[240px] drop-shadow-2xl">
-              {/* THE FIX #3: And also use the imported variable here */}
               <BunnyRive src={pebbleRiveFile} stateMachine="pebble" width={240} height={240} isTouchDevice={isTouchDevice} />
           </div>
           <div className="text-center mt-4">
